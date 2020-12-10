@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { RecipeDetails } from "./RecipeDetails";
 
 export const Recipe = ({ recipe }) => {
+  const [show, setShow] = useState(false);
+
   const { label, image, url, ingredients } = recipe.recipe;
 
   return (
@@ -10,7 +13,8 @@ export const Recipe = ({ recipe }) => {
       <a href={url} target="_blank">
         URL
       </a>
-      <button>Ingredients</button>
+      <button onClick={() => setShow(!show)}>Ingredients</button>
+      {show && <RecipeDetails ingredients={ingredients} />}
     </div>
   );
 };
