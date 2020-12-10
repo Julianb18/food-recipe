@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+
 import "./App.css";
+import { Recipe } from "./components/Recipe";
 
 function App() {
   const [query, setQuery] = useState("");
+  const [recipes, setRecipes] = useState([]);
+
   const APP_ID = "c6bfcd30";
 
   const APP_KEY = "4b38b2feb466a4daeac2a26011f80e42	";
@@ -12,7 +17,9 @@ function App() {
 
   const getData = async () => {
     const result = await Axios.get(url);
+    setRecipes(result.data.hits);
     console.log(result);
+    setQuery("");
   };
 
   const onChange = (e) => {
@@ -33,9 +40,14 @@ function App() {
           placeholder="Search Food..."
           autoComplete="off"
           onChange={onChange}
+          value={query}
         />
         <input type="submit" value="search" />
       </form>
+      <div className="recipes">
+        {recipes !== [] &&
+          recipes.map((recipe) => <Recipe key={uuidv4()} recipe={recipe} />)}
+      </div>
     </div>
   );
 }
